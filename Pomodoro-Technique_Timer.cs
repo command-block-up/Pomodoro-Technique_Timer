@@ -192,15 +192,26 @@ namespace Pomodoro_Technique
             }
             else
             {
-                // 如果当前正在运行，停止计时并根据情况重置
+                // 如果当前正在运行，停止计时
                 isRunning = false;
                 countdownTimer.Stop();
                 progressTimer.Stop();
-                if (currentSession != SessionType.Pomodoro)
+
+                // 无论当前是哪种会话，都重置UI显示
+                if (currentSession == SessionType.Pomodoro)
                 {
-                    // 如果当前是休息期，重置后准备新的番茄钟
+                    // 特别地，如果是番茄钟进行中，保留完成的番茄钟计数，但重置显示
+                    remainingSeconds = PomodoroDurationMinutes * 60;
+                    progressBar.Value = 0;
+                    UpdateUI();
+                }
+                else
+                {
+                    // 对于休息，直接准备开始新的番茄钟
                     ResetAfterBreak();
                 }
+
+                start_button.Text = "开始";
             }
         }
     }
