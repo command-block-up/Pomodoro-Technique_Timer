@@ -1,22 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Pomodoro_Technique
 {
-    public partial class Form1 : Form
+    public partial class Form : System.Windows.Forms.Form
     {
         private System.Windows.Forms.Timer timerUpdateProgress;
 
-        public Form1()
+        public Form()
         {
             InitializeComponent();
             // 初始化Timer
@@ -30,7 +20,8 @@ namespace Pomodoro_Technique
             // 更新进度条的值，这里以逐步增加到100为例
             if (progressBar.Value < 100)
             {
-                progressBar.Value += 10; // 每次增加10，根据需要调整
+                progressBar.Value += 4; // 每次增加10，根据需要调整
+                Console.WriteLine("1 minute pasts");
             }
             else
             {
