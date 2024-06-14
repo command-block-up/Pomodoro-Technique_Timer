@@ -20,7 +20,7 @@ namespace Pomodoro_Technique
             // 更新进度条的值，这里以逐步增加到100为例
             if (progressBar.Value < 100)
             {
-                progressBar.Value += 4; // 每次增加10，根据需要调整
+                progressBar.Value += 4; // 每次增加4，根据需要调整
                 Console.WriteLine("1 minute pasts");
             }
             else
