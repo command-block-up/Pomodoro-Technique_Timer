@@ -1,6 +1,6 @@
 ﻿namespace Pomodoro_Technique
 {
-    partial class Form
+    partial class PomodoroForm
     {
         /// <summary>
         /// 必需的设计器变量。

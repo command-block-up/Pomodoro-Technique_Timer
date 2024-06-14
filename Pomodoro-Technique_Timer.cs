@@ -3,85 +3,204 @@ using System.Windows.Forms;
 
 namespace Pomodoro_Technique
 {
-    public partial class Form : System.Windows.Forms.Form
+    public partial class PomodoroForm : Form
     {
-        private System.Windows.Forms.Timer countdownTimer; // 倒计时定时器
-        private int totalSeconds = 1500;
-        private System.Windows.Forms.Timer timerUpdateProgress;
-        private bool the_first_start;
+        // 倒计时定时器，负责递减剩余时间
+        private System.Windows.Forms.Timer countdownTimer;
 
-        public Form()
+        // 当前任务的剩余秒数，根据会话类型动态调整
+        private int remainingSeconds;
+
+        // 进度条更新定时器，与倒计时同步更新UI上的进度条
+        private System.Windows.Forms.Timer progressTimer;
+
+        // 标识当前是否正处于计时期间
+        private bool isRunning;
+
+        // 番茄钟的标准时长（分钟）
+        private const int PomodoroDurationMinutes = 25;
+
+        // 短休息时长（分钟）
+        private const int ShortBreakDurationMinutes = 10;
+
+        // 长休息时长（分钟）
+        private const int LongBreakDurationMinutes = 30;
+
+        // 记录已经完成的番茄钟数量，用于决定何时进行长休息
+        private int completedPomodoros;
+
+        // 枚举定义了三种会话类型，简化逻辑判断
+        private enum SessionType { Pomodoro, ShortBreak, LongBreak }
+
+        // 当前正在进行的会话类型
+        private SessionType currentSession;
+
+        public PomodoroForm()
         {
             InitializeComponent();
-            InitializeCountdownTimer();
-            // 初始化Timer
-            timerUpdateProgress = new System.Windows.Forms.Timer();
-            timerUpdateProgress.Tick += TimerUpdateProgress_Tick; // 设置Tick事件的处理方法
+            InitializeTimers(); // 初始化所有需要的计时器组件
+            progressBar.Maximum = PomodoroDurationMinutes * 60; // 设置进度条最大值为一个番茄钟的总秒数
         }
 
-        private void InitializeCountdownTimer()
+        // 初始化倒计时和进度条更新的定时器实例及事件处理
+        private void InitializeTimers()
         {
-            countdownTimer = new System.Windows.Forms.Timer();
-            countdownTimer.Interval = 1000; // 每隔1000毫秒（即1秒）触发一次Tick事件
-            countdownTimer.Tick += CountdownTimer_Tick;
+            countdownTimer = new System.Windows.Forms.Timer { Interval = 1000 };
+            countdownTimer.Tick += CountdownTimer_Tick; // 每秒触发一次计时器回调
+
+            progressTimer = new System.Windows.Forms.Timer { Interval = 1000 };
+            progressTimer.Tick += ProgressTimer_Tick; // 同步更新进度条
         }
 
+        // 倒计时定时器的Tick事件处理器
         private void CountdownTimer_Tick(object sender, EventArgs e)
         {
-            totalSeconds--; // 时间递减1秒
-            if (totalSeconds <= 0)
+            // 减少剩余秒数，模拟时间流逝
+            remainingSeconds--;
+
+            // 更新UI显示的时间
+            UpdateUI();
+
+            // 检查是否到达会话结束
+            if (remainingSeconds <= 0)
             {
-                // 倒计时结束，停止定时器
-                countdownTimer.Stop();
-                label1.Text = "Time's up!";
-            }
-            else
-            {
-                // 计算剩余的分钟和秒，并更新Label
-                int minutes = totalSeconds / 60;
-                int seconds = totalSeconds % 60;
-                label1.Text = $"{minutes:D2}:{seconds:D2}"; // D2保证了即使是个位数也会显示为两位数，如01:05
+                // 根据当前会话类型决定下一步动作
+                switch (currentSession)
+                {
+                    case SessionType.Pomodoro:
+                        // 完成一个番茄钟，增加完成计数并检查是否开始长休息
+                        completedPomodoros++;
+                        if (completedPomodoros % 4 == 0)
+                        {
+                            StartLongBreak(); // 完成四个番茄钟后进入长休息
+                        }
+                        else
+                        {
+                            StartShortBreak(); // 否则进入短休息
+                        }
+                        break;
+                    case SessionType.ShortBreak:
+                    case SessionType.LongBreak:
+                        // 休息结束，开始新的番茄钟
+                        StartPomodoro();
+                        break;
+                }
             }
         }
 
-
-        private void TimerUpdateProgress_Tick(object sender, EventArgs e)
+        // 进度条更新的Tick事件处理器
+        private void ProgressTimer_Tick(object sender, EventArgs e)
         {
-            // 更新进度条的值，这里以逐步增加到100为例
-            if (progressBar.Value < 1500)
+            // 每秒增加进度条的值，直到达到最大值
+            progressBar.Value++;
+            if (progressBar.Value >= progressBar.Maximum)
             {
-                progressBar.Value += 1; // 每次增加4，根据需要调整
-            }
-            else
-            {
-                // 当进度条达到最大值时，停止计时器
-                timerUpdateProgress.Stop();
+                // 进度条满后停止更新
+                progressTimer.Stop();
             }
         }
 
+        // 更新用户界面显示的时间或休息信息
+        private void UpdateUI()
+        {
+            // 将剩余秒数转换为分钟和秒，并格式化输出
+            int minutes = remainingSeconds / 60;
+            int seconds = remainingSeconds % 60;
+            label1.Text = $"{minutes:D2}:{seconds:D2}";
+        }
+
+        // 开始一个新的番茄钟会话
+        private void StartPomodoro()
+        {
+            // 重置剩余秒数为一个番茄钟的时长
+            remainingSeconds = PomodoroDurationMinutes * 60;
+            // 设置当前会话为番茄钟
+            currentSession = SessionType.Pomodoro;
+            // 更新UI
+            UpdateUI();
+            // 启动倒计时和进度条更新定时器
+            countdownTimer.Start();
+            progressTimer.Start();
+            // 改变按钮文本为“停止”
+            start_button.Text = "停止";
+        }
+
+        // 开始短休息会话
+        private void StartShortBreak()
+        {
+            // 设置休息时长
+            remainingSeconds = ShortBreakDurationMinutes * 60;
+            // 更新会话类型
+            currentSession = SessionType.ShortBreak;
+            // 提醒用户休息，并更新UI
+            UpdateUI();
+            MessageBox.Show("Take a short break!", "Break Time", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // 启动倒计时和进度条更新
+            countdownTimer.Start();
+            progressTimer.Start();
+        }
+
+        // 开始长休息会话
+        private void StartLongBreak()
+        {
+            // 设置长休息时长
+            remainingSeconds = LongBreakDurationMinutes * 60;
+            // 更新会话类型
+            currentSession = SessionType.LongBreak;
+            // 提醒用户休息，并更新UI
+            UpdateUI();
+            MessageBox.Show("Take a long break!", "Extended Break", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // 启动倒计时和进度条更新
+            countdownTimer.Start();
+            progressTimer.Start();
+        }
+
+        // 休息结束后重置状态，准备开始新的番茄钟
+        private void ResetAfterBreak()
+        {
+            // 重置剩余秒数为新的番茄钟时长
+            remainingSeconds = PomodoroDurationMinutes * 60;
+            // 重置进度条
+            progressBar.Value = 0;
+            // 更新UI
+            UpdateUI();
+            // 改变按钮文本为“开始”
+            start_button.Text = "开始";
+            // 重置运行状态
+            isRunning = false;
+        }
+
+        // 主要控制按钮的点击事件处理
         private void start_button_Click(object sender, EventArgs e)
         {
-            if (start_button.Text == "开始" || the_first_start)
+            if (!isRunning)
             {
-                // 启动计时器并更新UI
-                countdownTimer.Start();
-                // 假设你想通过进度条显示番茄进度，应与倒计时同步。
-                // 对于25分钟的番茄钟，完整进度应是25*60秒。
-                timerUpdateProgress.Interval = 1000; // 每秒更新一次
-                timerUpdateProgress.Start();
-                start_button.Text = "停止";
-                the_first_start = false;
+                // 如果当前没有运行，开始相应的会话
+                isRunning = true;
+                switch (currentSession)
+                {
+                    case SessionType.Pomodoro:
+                        StartPomodoro();
+                        break;
+                    case SessionType.ShortBreak:
+                        StartShortBreak();
+                        break;
+                    case SessionType.LongBreak:
+                        StartLongBreak();
+                        break;
+                }
             }
-            else if (start_button.Text == "停止")
+            else
             {
-                // 停止两个计时器
+                // 如果当前正在运行，停止计时并根据情况重置
+                isRunning = false;
                 countdownTimer.Stop();
-                timerUpdateProgress.Stop();
-                // 根据需要重置UI和状态
-                label1.Text = "25:00"; // 重置显示时间
-                progressBar.Value = 0; // 重置进度条
-                totalSeconds = 1500; // 假定默认番茄时间为25分钟
-                start_button.Text = "开始";
+                progressTimer.Stop();
+                if (currentSession != SessionType.Pomodoro)
+                {
+                    // 如果当前是休息期，重置后准备新的番茄钟
+                    ResetAfterBreak();
+                }
             }
         }
     }
