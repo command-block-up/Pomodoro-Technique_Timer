@@ -31,7 +31,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.start_button = new System.Windows.Forms.Button();
-            this.stop_button = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -52,6 +51,7 @@
             // progressBar
             // 
             this.progressBar.Location = new System.Drawing.Point(62, 96);
+            this.progressBar.Maximum = 1500;
             this.progressBar.Name = "progressBar";
             this.progressBar.RightToLeftLayout = true;
             this.progressBar.Size = new System.Drawing.Size(693, 23);
@@ -59,22 +59,13 @@
             // 
             // start_button
             // 
-            this.start_button.Location = new System.Drawing.Point(255, 368);
+            this.start_button.Location = new System.Drawing.Point(328, 368);
             this.start_button.Name = "start_button";
             this.start_button.Size = new System.Drawing.Size(132, 70);
             this.start_button.TabIndex = 2;
             this.start_button.Text = "开始";
             this.start_button.UseVisualStyleBackColor = true;
             this.start_button.Click += new System.EventHandler(this.start_button_Click);
-            // 
-            // stop_button
-            // 
-            this.stop_button.Location = new System.Drawing.Point(393, 368);
-            this.stop_button.Name = "stop_button";
-            this.stop_button.Size = new System.Drawing.Size(132, 70);
-            this.stop_button.TabIndex = 2;
-            this.stop_button.Text = "停止";
-            this.stop_button.UseVisualStyleBackColor = true;
             // 
             // listBox1
             // 
@@ -121,7 +112,7 @@
             this.button6.Text = "button3";
             this.button6.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -131,11 +122,10 @@
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.stop_button);
             this.Controls.Add(this.start_button);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.label1);
-            this.Name = "Form1";
+            this.Name = "Form";
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -147,7 +137,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Button start_button;
-        private System.Windows.Forms.Button stop_button;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
