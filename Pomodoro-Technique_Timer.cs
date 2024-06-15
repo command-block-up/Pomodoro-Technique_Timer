@@ -19,7 +19,7 @@ namespace Pomodoro_Technique
         private bool isRunning;
 
         // 番茄钟的标准时长（分钟）
-        private const int PomodoroDurationMinutes = 1;
+        private const int PomodoroDurationMinutes = 25;
 
         // 短休息时长（分钟）
         private const int ShortBreakDurationMinutes = 10;
