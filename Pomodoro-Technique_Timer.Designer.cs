@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.start_button = new System.Windows.Forms.Button();
@@ -36,6 +37,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -112,7 +114,14 @@
             this.button6.Text = "button3";
             this.button6.UseVisualStyleBackColor = true;
             // 
-            // Form
+            // notifyIcon
+            // 
+            this.notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon.BalloonTipText = "番茄工作法";
+            this.notifyIcon.Text = "番茄工作法";
+            this.notifyIcon.Visible = true;
+            // 
+            // PomodoroForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -125,7 +134,7 @@
             this.Controls.Add(this.start_button);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.label1);
-            this.Name = "Form";
+            this.Name = "PomodoroForm";
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -142,6 +151,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
     }
 }
 
