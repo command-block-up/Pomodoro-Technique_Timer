@@ -58,10 +58,10 @@ namespace Pomodoro_Technique
             switch (currentSession)
             {
                 case SessionType.ShortBreak:
-                    progressBar.Value = (int)Math.Floor((double)progressBar.Maximum * (remainingSeconds - ShortBreakDurationMinutes * 60) / (double)progressBar.Maximum);
+                    progressBar.Value = (int)(((double)progressBar.Maximum * (remainingSeconds - ShortBreakDurationMinutes * 60)) / (double)progressBar.Maximum);
                     break;
                 case SessionType.LongBreak:
-                    progressBar.Value = (int)Math.Floor((double)progressBar.Maximum * (remainingSeconds - LongBreakDurationMinutes * 60) / (double)progressBar.Maximum);
+                    progressBar.Value = (int)(((double)progressBar.Maximum * (remainingSeconds - LongBreakDurationMinutes * 60)) / (double)progressBar.Maximum);
                     break;
             }
 
