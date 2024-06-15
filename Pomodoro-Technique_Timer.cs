@@ -91,8 +91,24 @@ namespace Pomodoro_Technique
         // 进度条更新的Tick事件处理器
         private void ProgressTimer_Tick(object sender, EventArgs e)
         {
-            // 每秒增加进度条的值，直到达到最大值
-            progressBar.Value++;
+            // 根据当前会话类型调整进度条的更新逻辑
+            switch (currentSession)
+            {
+                case SessionType.Pomodoro:
+                    // 番茄钟情况下，每秒增加一次
+                    progressBar.Value++;
+                    break;
+                case SessionType.ShortBreak:
+                    // 短休息情况下，每秒增加的步长需根据短休息的总秒数调整，以确保进度条在休息结束时刚好填满
+                    int shortBreakSteps = (int)(ShortBreakDurationMinutes * 60 / progressBar.Maximum);
+                    progressBar.Value = (progressBar.Value + shortBreakSteps) % progressBar.Maximum;
+                    break;
+                case SessionType.LongBreak:
+                    // 长休息同理，调整增加的步长
+                    int longBreakSteps = (int)(LongBreakDurationMinutes * 60 / progressBar.Maximum);
+                    progressBar.Value = (progressBar.Value + longBreakSteps) % progressBar.Maximum;
+                    break;
+            }
             if (progressBar.Value >= progressBar.Maximum)
             {
                 // 进度条满后停止更新
