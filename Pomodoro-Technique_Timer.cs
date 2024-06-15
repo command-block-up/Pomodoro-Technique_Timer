@@ -58,14 +58,20 @@ namespace Pomodoro_Technique
             switch (currentSession)
             {
                 case SessionType.ShortBreak:
-                    progressBar.Value = (int)((double)progressBar.Maximum * (remainingSeconds - ShortBreakDurationMinutes * 60) / (double)progressBar.Maximum);
+                    // 确保剩余秒数不会导致负的步进值
+                    int remainingShortBreakSeconds = ShortBreakDurationMinutes * 60 - remainingSeconds;
+                    int shortBreakSteps = Math.Max(1, remainingShortBreakSeconds * progressBar.Maximum / (ShortBreakDurationMinutes * 60));
+                    progressBar.Value = progressBar.Maximum - shortBreakSteps;
                     break;
                 case SessionType.LongBreak:
-                    progressBar.Value = (int)((double)progressBar.Maximum * (remainingSeconds - LongBreakDurationMinutes * 60) / (double)progressBar.Maximum);
+                    // 同样的逻辑应用于长休息
+                    int remainingLongBreakSeconds = LongBreakDurationMinutes * 60 - remainingSeconds;
+                    int longBreakSteps = Math.Max(1, remainingLongBreakSeconds * progressBar.Maximum / (LongBreakDurationMinutes * 60));
+                    progressBar.Value = progressBar.Maximum - longBreakSteps;
                     break;
             }
 
-            // 达到最大值后停止计时器
+            // 达到或超过最大值后停止计时器
             if (progressBar.Value >= progressBar.Maximum)
             {
                 restProgressTimer.Stop();
@@ -141,7 +147,22 @@ namespace Pomodoro_Technique
             //        progressBar.Value = (progressBar.Value + longBreakSteps) % progressBar.Maximum;
             //        break;
             //}
-            progressBar.Value++;
+            
+            switch (currentSession)
+            {
+                case SessionType.Pomodoro:
+                    // 番茄钟情况下，每秒增加一次
+                    progressBar.Value++;
+                    break;
+                //// 短休息期间的进度条更新逻辑
+                //case SessionType.ShortBreak:
+                //    progressBar.Value = (progressBar.Value + shortBreakSteps) % progressBar.Maximum;
+                //    break;
+                //// 长休息期间的进度条更新逻辑
+                //case SessionType.LongBreak:
+                //    progressBar.Value = (progressBar.Value + longBreakSteps) % progressBar.Maximum;
+                //    break;
+            }
 
             if (progressBar.Value >= progressBar.Maximum)
             {
@@ -218,6 +239,8 @@ namespace Pomodoro_Technique
         {
             // 重置剩余秒数为新的番茄钟时长
             remainingSeconds = PomodoroDurationMinutes * 60;
+            // 停止休息期间的进度条更新定时器
+            restProgressTimer.Stop();
             // 重置进度条
             progressBar.Value = 0;
             // 更新UI
