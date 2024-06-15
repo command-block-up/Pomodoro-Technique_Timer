@@ -201,6 +201,13 @@ namespace Pomodoro_Technique
             notifyIcon.ShowBalloonTip(5000); // 参数为显示时间，单位为毫秒
         }
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            notifyIcon.Visible = false;
+            notifyIcon.Dispose();
+        }
+
         // 主要控制按钮的点击事件处理
         private void start_button_Click(object sender, EventArgs e)
         {
