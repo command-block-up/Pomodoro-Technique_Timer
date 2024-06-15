@@ -13,7 +13,6 @@ namespace Pomodoro_Technique
 
         // 进度条更新定时器，与倒计时同步更新UI上的进度条
         private System.Windows.Forms.Timer progressTimer;
-        private System.Windows.Forms.Timer restProgressTimer;
 
         // 标识当前是否正处于计时期间
         private bool isRunning;
@@ -39,46 +38,9 @@ namespace Pomodoro_Technique
         public PomodoroForm()
         {
             InitializeComponent();
-            InitializeRestProgressTimer();
             InitializeTimers(); // 初始化所有需要的计时器组件
             progressBar.Maximum = PomodoroDurationMinutes * 60; // 设置进度条最大值为一个番茄钟的总秒数
         }
-
-        // 初始化休息期间的进度条更新定时器
-        private void InitializeRestProgressTimer()
-        {
-            restProgressTimer = new System.Windows.Forms.Timer { Interval = 3000 }; // 每隔三秒更新一次
-            restProgressTimer.Tick += RestProgressTimer_Tick;
-        }
-
-        // 休息期间的进度条更新逻辑
-        private void RestProgressTimer_Tick(object sender, EventArgs e)
-        {
-            // 根据当前会话类型调整进度条的更新逻辑
-            switch (currentSession)
-            {
-                case SessionType.ShortBreak:
-                    // 确保剩余秒数不会导致负的步进值
-                    int remainingShortBreakSeconds = ShortBreakDurationMinutes * 60 - remainingSeconds;
-                    int shortBreakSteps = Math.Max(1, remainingShortBreakSeconds * progressBar.Maximum / (ShortBreakDurationMinutes * 60));
-                    progressBar.Value = progressBar.Maximum - shortBreakSteps;
-                    break;
-                case SessionType.LongBreak:
-                    // 同样的逻辑应用于长休息
-                    int remainingLongBreakSeconds = LongBreakDurationMinutes * 60 - remainingSeconds;
-                    int longBreakSteps = Math.Max(1, remainingLongBreakSeconds * progressBar.Maximum / (LongBreakDurationMinutes * 60));
-                    progressBar.Value = progressBar.Maximum - longBreakSteps;
-                    break;
-            }
-
-            // 达到或超过最大值后停止计时器
-            if (progressBar.Value >= progressBar.Maximum)
-            {
-                restProgressTimer.Stop();
-            }
-        }
-
-
 
         // 初始化倒计时和进度条更新的定时器实例及事件处理
         private void InitializeTimers()
@@ -211,7 +173,7 @@ namespace Pomodoro_Technique
             // 重置剩余秒数为新的番茄钟时长
             remainingSeconds = PomodoroDurationMinutes * 60;
             // 停止休息期间的进度条更新定时器
-            restProgressTimer.Stop();
+            progressTimer.Stop();
             // 重置进度条
             progressBar.Value = 0;
             // 更新UI
