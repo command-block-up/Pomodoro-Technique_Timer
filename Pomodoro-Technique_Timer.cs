@@ -128,6 +128,9 @@ namespace Pomodoro_Technique
         // 开始短休息会话
         private void StartShortBreak()
         {
+            // 重置进度条值为0
+            progressBar.Value = 0;
+
             // 设置休息时长
             remainingSeconds = ShortBreakDurationMinutes * 60;
             // 更新会话类型
@@ -143,6 +146,9 @@ namespace Pomodoro_Technique
         // 开始长休息会话
         private void StartLongBreak()
         {
+            // 重置进度条值为0
+            progressBar.Value = 0;
+
             // 设置长休息时长
             remainingSeconds = LongBreakDurationMinutes * 60;
             // 更新会话类型
