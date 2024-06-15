@@ -13,6 +13,7 @@ namespace Pomodoro_Technique
 
         // 进度条更新定时器，与倒计时同步更新UI上的进度条
         private System.Windows.Forms.Timer progressTimer;
+        private System.Windows.Forms.Timer restProgressTimer;
 
         // 标识当前是否正处于计时期间
         private bool isRunning;
@@ -38,9 +39,40 @@ namespace Pomodoro_Technique
         public PomodoroForm()
         {
             InitializeComponent();
+            InitializeRestProgressTimer();
             InitializeTimers(); // 初始化所有需要的计时器组件
             progressBar.Maximum = PomodoroDurationMinutes * 60; // 设置进度条最大值为一个番茄钟的总秒数
         }
+
+        // 初始化休息期间的进度条更新定时器
+        private void InitializeRestProgressTimer()
+        {
+            restProgressTimer = new System.Windows.Forms.Timer { Interval = 3000 }; // 每隔三秒更新一次
+            restProgressTimer.Tick += RestProgressTimer_Tick;
+        }
+
+        // 休息期间的进度条更新逻辑
+        private void RestProgressTimer_Tick(object sender, EventArgs e)
+        {
+            // 根据当前会话类型调整进度条的更新逻辑
+            switch (currentSession)
+            {
+                case SessionType.ShortBreak:
+                    progressBar.Value = (int)Math.Floor((double)progressBar.Maximum * (remainingSeconds - ShortBreakDurationMinutes * 60) / (double)progressBar.Maximum);
+                    break;
+                case SessionType.LongBreak:
+                    progressBar.Value = (int)Math.Floor((double)progressBar.Maximum * (remainingSeconds - LongBreakDurationMinutes * 60) / (double)progressBar.Maximum);
+                    break;
+            }
+
+            // 达到最大值后停止计时器
+            if (progressBar.Value >= progressBar.Maximum)
+            {
+                restProgressTimer.Stop();
+            }
+        }
+
+
 
         // 初始化倒计时和进度条更新的定时器实例及事件处理
         private void InitializeTimers()
@@ -156,7 +188,8 @@ namespace Pomodoro_Technique
             ShowNotification("番茄工作法", "开始短休息");
             // 启动倒计时和进度条更新
             countdownTimer.Start();
-            progressTimer.Start();
+            // 启动休息期间的进度条更新定时器
+            restProgressTimer.Start();
         }
 
         // 开始长休息会话
@@ -174,7 +207,8 @@ namespace Pomodoro_Technique
             ShowNotification("番茄工作法", "开始长休息");
             // 启动倒计时和进度条更新
             countdownTimer.Start();
-            progressTimer.Start();
+            // 启动休息期间的进度条更新定时器
+            restProgressTimer.Start();
         }
 
         // 休息结束后重置状态，准备开始新的番茄钟
