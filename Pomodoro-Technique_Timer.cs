@@ -19,7 +19,7 @@ namespace Pomodoro_Technique
         private bool isRunning;
 
         // 番茄钟的标准时长（分钟）
-        private const int PomodoroDurationMinutes = 25;
+        private const int PomodoroDurationMinutes = 1;
 
         // 短休息时长（分钟）
         private const int ShortBreakDurationMinutes = 10;
@@ -58,10 +58,10 @@ namespace Pomodoro_Technique
             switch (currentSession)
             {
                 case SessionType.ShortBreak:
-                    progressBar.Value = progressBar.Maximum - ((ShortBreakDurationMinutes * 60 - remainingSeconds) * progressBar.Maximum / ShortBreakDurationMinutes * 60);
+                    progressBar.Value = (int)((double)progressBar.Maximum * (remainingSeconds - ShortBreakDurationMinutes * 60) / (double)progressBar.Maximum);
                     break;
                 case SessionType.LongBreak:
-                    progressBar.Value = progressBar.Maximum - ((LongBreakDurationMinutes * 60 - remainingSeconds) * progressBar.Maximum / LongBreakDurationMinutes * 60);
+                    progressBar.Value = (int)((double)progressBar.Maximum * (remainingSeconds - LongBreakDurationMinutes * 60) / (double)progressBar.Maximum);
                     break;
             }
 
@@ -124,23 +124,25 @@ namespace Pomodoro_Technique
         private void ProgressTimer_Tick(object sender, EventArgs e)
         {
             // 根据当前会话类型调整进度条的更新逻辑
-            switch (currentSession)
-            {
-                case SessionType.Pomodoro:
-                    // 番茄钟情况下，每秒增加一次
-                    progressBar.Value++;
-                    break;
-                case SessionType.ShortBreak:
-                    // 短休息情况下，每秒增加的步长需根据短休息的总秒数调整，以确保进度条在休息结束时刚好填满
-                    int shortBreakSteps = (int)(ShortBreakDurationMinutes * 60 / progressBar.Maximum);
-                    progressBar.Value = (progressBar.Value + shortBreakSteps) % progressBar.Maximum;
-                    break;
-                case SessionType.LongBreak:
-                    // 长休息同理，调整增加的步长
-                    int longBreakSteps = (int)(LongBreakDurationMinutes * 60 / progressBar.Maximum);
-                    progressBar.Value = (progressBar.Value + longBreakSteps) % progressBar.Maximum;
-                    break;
-            }
+            //switch (currentSession)
+            //{
+            //    case SessionType.Pomodoro:
+            //        // 番茄钟情况下，每秒增加一次
+            //        progressBar.Value++;
+            //        break;
+            //    case SessionType.ShortBreak:
+            //        // 短休息情况下，每秒增加的步长需根据短休息的总秒数调整，以确保进度条在休息结束时刚好填满
+            //        int shortBreakSteps = (int)(ShortBreakDurationMinutes * 60 / progressBar.Maximum);
+            //        progressBar.Value = (progressBar.Value + shortBreakSteps) % progressBar.Maximum;
+            //        break;
+            //    case SessionType.LongBreak:
+            //        // 长休息同理，调整增加的步长
+            //        int longBreakSteps = (int)(LongBreakDurationMinutes * 60 / progressBar.Maximum);
+            //        progressBar.Value = (progressBar.Value + longBreakSteps) % progressBar.Maximum;
+            //        break;
+            //}
+            progressBar.Value++;
+
             if (progressBar.Value >= progressBar.Maximum)
             {
                 // 进度条满后停止更新
