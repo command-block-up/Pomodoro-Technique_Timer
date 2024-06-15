@@ -129,40 +129,8 @@ namespace Pomodoro_Technique
         // 进度条更新的Tick事件处理器
         private void ProgressTimer_Tick(object sender, EventArgs e)
         {
-            // 根据当前会话类型调整进度条的更新逻辑
-            //switch (currentSession)
-            //{
-            //    case SessionType.Pomodoro:
-            //        // 番茄钟情况下，每秒增加一次
-            //        progressBar.Value++;
-            //        break;
-            //    case SessionType.ShortBreak:
-            //        // 短休息情况下，每秒增加的步长需根据短休息的总秒数调整，以确保进度条在休息结束时刚好填满
-            //        int shortBreakSteps = (int)(ShortBreakDurationMinutes * 60 / progressBar.Maximum);
-            //        progressBar.Value = (progressBar.Value + shortBreakSteps) % progressBar.Maximum;
-            //        break;
-            //    case SessionType.LongBreak:
-            //        // 长休息同理，调整增加的步长
-            //        int longBreakSteps = (int)(LongBreakDurationMinutes * 60 / progressBar.Maximum);
-            //        progressBar.Value = (progressBar.Value + longBreakSteps) % progressBar.Maximum;
-            //        break;
-            //}
+            progressBar.Value++;
             
-            switch (currentSession)
-            {
-                case SessionType.Pomodoro:
-                    // 番茄钟情况下，每秒增加一次
-                    progressBar.Value++;
-                    break;
-                //// 短休息期间的进度条更新逻辑
-                //case SessionType.ShortBreak:
-                //    progressBar.Value = (progressBar.Value + shortBreakSteps) % progressBar.Maximum;
-                //    break;
-                //// 长休息期间的进度条更新逻辑
-                //case SessionType.LongBreak:
-                //    progressBar.Value = (progressBar.Value + longBreakSteps) % progressBar.Maximum;
-                //    break;
-            }
 
             if (progressBar.Value >= progressBar.Maximum)
             {
@@ -183,12 +151,15 @@ namespace Pomodoro_Technique
         // 开始一个新的番茄钟会话
         private void StartPomodoro()
         {
+            // 重置进度条值为0
+            progressBar.Value = 0;
             // 重置剩余秒数为一个番茄钟的时长
             remainingSeconds = PomodoroDurationMinutes * 60;
             // 设置当前会话为番茄钟
             currentSession = SessionType.Pomodoro;
             // 更新UI
             UpdateUI();
+            progressBar.Maximum = remainingSeconds;
             // 启动倒计时和进度条更新定时器
             countdownTimer.Start();
             progressTimer.Start();
@@ -208,11 +179,11 @@ namespace Pomodoro_Technique
             currentSession = SessionType.ShortBreak;
             // 提醒用户休息，并更新UI
             UpdateUI();
+            progressBar.Maximum = remainingSeconds;
             ShowNotification("番茄工作法", "开始短休息");
             // 启动倒计时和进度条更新
             countdownTimer.Start();
-            // 启动休息期间的进度条更新定时器
-            restProgressTimer.Start();
+            progressTimer.Start();
         }
 
         // 开始长休息会话
@@ -227,11 +198,11 @@ namespace Pomodoro_Technique
             currentSession = SessionType.LongBreak;
             // 提醒用户休息，并更新UI
             UpdateUI();
+            progressBar.Maximum = remainingSeconds;
             ShowNotification("番茄工作法", "开始长休息");
             // 启动倒计时和进度条更新
             countdownTimer.Start();
-            // 启动休息期间的进度条更新定时器
-            restProgressTimer.Start();
+            progressTimer.Start();
         }
 
         // 休息结束后重置状态，准备开始新的番茄钟
