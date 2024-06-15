@@ -153,7 +153,7 @@ namespace Pomodoro_Technique
             currentSession = SessionType.ShortBreak;
             // 提醒用户休息，并更新UI
             UpdateUI();
-            MessageBox.Show("Take a short break!", "Break Time", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ShowNotification("番茄工作法", "开始短休息");
             // 启动倒计时和进度条更新
             countdownTimer.Start();
             progressTimer.Start();
@@ -171,7 +171,7 @@ namespace Pomodoro_Technique
             currentSession = SessionType.LongBreak;
             // 提醒用户休息，并更新UI
             UpdateUI();
-            MessageBox.Show("Take a long break!", "Extended Break", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ShowNotification("番茄工作法", "开始长休息");
             // 启动倒计时和进度条更新
             countdownTimer.Start();
             progressTimer.Start();
@@ -190,6 +190,15 @@ namespace Pomodoro_Technique
             start_button.Text = "开始";
             // 重置运行状态
             isRunning = false;
+        }
+
+        private void ShowNotification(string title, string message)
+        {
+            // 创建BalloonTipIcon枚举的实例，这里使用Info作为例子
+            notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
+            notifyIcon.BalloonTipText = message;
+            notifyIcon.BalloonTipTitle = title;
+            notifyIcon.ShowBalloonTip(5000); // 参数为显示时间，单位为毫秒
         }
 
         // 主要控制按钮的点击事件处理
