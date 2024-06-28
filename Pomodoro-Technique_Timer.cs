@@ -153,7 +153,6 @@ namespace Pomodoro_Technique
                        .AddText("开始短休息")
                        .Show();
             progressBar.Maximum = remainingSeconds;
-            ShowNotification("番茄工作法", "开始短休息");
             // 启动倒计时和进度条更新
             countdownTimer.Start();
             progressTimer.Start();
@@ -177,7 +176,6 @@ namespace Pomodoro_Technique
                        .AddText("开始长休息")
                        .Show();
             progressBar.Maximum = remainingSeconds;
-            ShowNotification("番茄工作法", "开始长休息");
             // 启动倒计时和进度条更新
             countdownTimer.Start();
             progressTimer.Start();
@@ -200,21 +198,6 @@ namespace Pomodoro_Technique
             isRunning = false;
         }
 
-        private void ShowNotification(string title, string message)
-        {
-            // 创建BalloonTipIcon枚举的实例，这里使用Info作为例子
-            notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
-            notifyIcon.BalloonTipText = message;
-            notifyIcon.BalloonTipTitle = title;
-            notifyIcon.ShowBalloonTip(5000); // 参数为显示时间，单位为毫秒
-        }
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
-            notifyIcon.Visible = false;
-            notifyIcon.Dispose();
-        }
 
         // 主要控制按钮的点击事件处理
         private void start_button_Click(object sender, EventArgs e)
