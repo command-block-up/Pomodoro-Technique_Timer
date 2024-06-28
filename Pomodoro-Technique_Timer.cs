@@ -243,5 +243,12 @@ namespace Pomodoro_Technique
                 start_button.Text = "开始";
             }
         }
+
+        private void label1_DoubleClick(object sender, EventArgs e)
+        {
+            DebugWindow debugForm = new DebugWindow(); // 实例化 DebugWindow
+            debugForm.Show(); // 显示 DebugWindow
+
+        }
     }
 }
