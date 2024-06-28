@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System;
 using System.Windows.Forms;
 
 namespace Pomodoro_Technique
@@ -121,6 +122,11 @@ namespace Pomodoro_Technique
             currentSession = SessionType.Pomodoro;
             // 更新UI
             UpdateUI();
+            new ToastContentBuilder()
+                       .AddArgument("action", "viewConversation")
+                       .AddArgument("conversationId", 9813)
+                       .AddText("开始番茄钟")
+                       .Show();
             progressBar.Maximum = remainingSeconds;
             // 启动倒计时和进度条更新定时器
             countdownTimer.Start();
@@ -141,6 +147,11 @@ namespace Pomodoro_Technique
             currentSession = SessionType.ShortBreak;
             // 提醒用户休息，并更新UI
             UpdateUI();
+            new ToastContentBuilder()
+                       .AddArgument("action", "viewConversation")
+                       .AddArgument("conversationId", 9813)
+                       .AddText("开始短休息")
+                       .Show();
             progressBar.Maximum = remainingSeconds;
             ShowNotification("番茄工作法", "开始短休息");
             // 启动倒计时和进度条更新
@@ -160,6 +171,11 @@ namespace Pomodoro_Technique
             currentSession = SessionType.LongBreak;
             // 提醒用户休息，并更新UI
             UpdateUI();
+            new ToastContentBuilder()
+                       .AddArgument("action", "viewConversation")
+                       .AddArgument("conversationId", 9813)
+                       .AddText("开始长休息")
+                       .Show();
             progressBar.Maximum = remainingSeconds;
             ShowNotification("番茄工作法", "开始长休息");
             // 启动倒计时和进度条更新
