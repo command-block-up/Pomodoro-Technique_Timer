@@ -43,7 +43,6 @@
             this.label1.Size = new System.Drawing.Size(253, 84);
             this.label1.TabIndex = 0;
             this.label1.Text = "25:00";
-            this.label1.DoubleClick += new System.EventHandler(this.label1_DoubleClick);
             // 
             // progressBar
             // 
