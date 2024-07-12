@@ -31,6 +31,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.start_button = new System.Windows.Forms.Button();
+            this.read_list = new System.Windows.Forms.Button();
+            this.TaskList = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // label1
@@ -67,11 +69,31 @@
             this.start_button.UseVisualStyleBackColor = true;
             this.start_button.Click += new System.EventHandler(this.start_button_Click);
             // 
+            // read_list
+            // 
+            this.read_list.Location = new System.Drawing.Point(567, 343);
+            this.read_list.Name = "read_list";
+            this.read_list.Size = new System.Drawing.Size(111, 23);
+            this.read_list.TabIndex = 3;
+            this.read_list.Text = "ReadList";
+            this.read_list.UseVisualStyleBackColor = true;
+            // 
+            // TaskList
+            // 
+            this.TaskList.FormattingEnabled = true;
+            this.TaskList.ItemHeight = 15;
+            this.TaskList.Location = new System.Drawing.Point(270, 187);
+            this.TaskList.Name = "TaskList";
+            this.TaskList.Size = new System.Drawing.Size(238, 94);
+            this.TaskList.TabIndex = 4;
+            // 
             // PomodoroForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.TaskList);
+            this.Controls.Add(this.read_list);
             this.Controls.Add(this.start_button);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.label1);
@@ -87,6 +109,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Button start_button;
+        private System.Windows.Forms.Button read_list;
+        private System.Windows.Forms.ListBox TaskList;
     }
 }
 
