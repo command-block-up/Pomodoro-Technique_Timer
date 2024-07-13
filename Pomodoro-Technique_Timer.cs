@@ -1,9 +1,23 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Pomodoro_Technique
 {
+    // 任务模型类
+    public class TaskItem
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
+        public string PlanFinishDate { get; set; }
+        public int TomatoesCountPlan { get; set; }
+        public int TomatoesCountDone { get; set; }
+    }
     public partial class PomodoroForm : Form
     {
         // 倒计时定时器，负责递减剩余时间
@@ -242,6 +256,47 @@ namespace Pomodoro_Technique
 
                 start_button.Text = "开始";
             }
+        }
+        // 用于存储任务的列表
+        private List<TaskItem> tasks;
+
+        public PomodoroForm(string filePath)
+        {
+            InitializeComponent();
+            LoadTasksFromJson(filePath);
+            tasks = new List<TaskItem>();
+        }
+
+        // 读取JSON文件的方法
+        private void LoadTasksFromJson(string filePath)
+        {
+            try
+            {
+                string json = File.ReadAllText(filePath);
+                tasks = JsonConvert.DeserializeObject<List<TaskItem>>(json);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading tasks: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // 更新任务列表UI的方法
+        private void UpdateTaskList()
+        {
+            TaskList.Items.Clear();
+            foreach (var task in tasks)
+            {
+                TaskList.Items.Add(task.Name);
+            }
+        }
+
+        // read_list按钮的事件处理
+        private void read_list_Click(object sender, EventArgs e)
+        {
+            // 假设你的JSON文件路径是 "tasks.json"
+            LoadTasksFromJson("tasks.json");
+            UpdateTaskList();
         }
     }
 }
