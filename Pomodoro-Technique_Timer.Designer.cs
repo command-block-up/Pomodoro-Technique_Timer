@@ -71,18 +71,19 @@
             // 
             // read_list
             // 
-            this.read_list.Location = new System.Drawing.Point(567, 343);
+            this.read_list.Location = new System.Drawing.Point(568, 249);
             this.read_list.Name = "read_list";
             this.read_list.Size = new System.Drawing.Size(111, 23);
             this.read_list.TabIndex = 3;
             this.read_list.Text = "ReadList";
             this.read_list.UseVisualStyleBackColor = true;
+            this.read_list.Click += new System.EventHandler(this.read_list_Click);
             // 
             // TaskList
             // 
             this.TaskList.FormattingEnabled = true;
             this.TaskList.ItemHeight = 15;
-            this.TaskList.Location = new System.Drawing.Point(270, 187);
+            this.TaskList.Location = new System.Drawing.Point(270, 178);
             this.TaskList.Name = "TaskList";
             this.TaskList.Size = new System.Drawing.Size(238, 94);
             this.TaskList.TabIndex = 4;
