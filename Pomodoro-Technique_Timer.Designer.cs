@@ -33,6 +33,12 @@
             this.start_button = new System.Windows.Forms.Button();
             this.read_list = new System.Windows.Forms.Button();
             this.TaskList = new System.Windows.Forms.ListBox();
+            this.task_add = new System.Windows.Forms.Button();
+            this.task_view = new System.Windows.Forms.Button();
+            this.task_delete = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.show_task_info = new System.Windows.Forms.Button();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -71,7 +77,7 @@
             // 
             // read_list
             // 
-            this.read_list.Location = new System.Drawing.Point(568, 249);
+            this.read_list.Location = new System.Drawing.Point(677, 415);
             this.read_list.Name = "read_list";
             this.read_list.Size = new System.Drawing.Size(111, 23);
             this.read_list.TabIndex = 3;
@@ -81,25 +87,80 @@
             // 
             // TaskList
             // 
+            this.TaskList.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.TaskList.FormattingEnabled = true;
             this.TaskList.ItemHeight = 15;
-            this.TaskList.Location = new System.Drawing.Point(270, 178);
+            this.TaskList.Location = new System.Drawing.Point(12, 19);
             this.TaskList.Name = "TaskList";
-            this.TaskList.Size = new System.Drawing.Size(238, 94);
+            this.TaskList.Size = new System.Drawing.Size(289, 169);
             this.TaskList.TabIndex = 4;
+            // 
+            // task_add
+            // 
+            this.task_add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.task_add.Location = new System.Drawing.Point(307, 19);
+            this.task_add.Name = "task_add";
+            this.task_add.Size = new System.Drawing.Size(134, 53);
+            this.task_add.TabIndex = 5;
+            this.task_add.Text = "添加";
+            this.task_add.UseVisualStyleBackColor = true;
+            // 
+            // task_view
+            // 
+            this.task_view.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.task_view.Location = new System.Drawing.Point(307, 78);
+            this.task_view.Name = "task_view";
+            this.task_view.Size = new System.Drawing.Size(134, 53);
+            this.task_view.TabIndex = 5;
+            this.task_view.Text = "查看";
+            this.task_view.UseVisualStyleBackColor = true;
+            // 
+            // task_delete
+            // 
+            this.task_delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.task_delete.Location = new System.Drawing.Point(307, 137);
+            this.task_delete.Name = "task_delete";
+            this.task_delete.Size = new System.Drawing.Size(134, 53);
+            this.task_delete.TabIndex = 5;
+            this.task_delete.Text = "删除";
+            this.task_delete.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.panel1.Controls.Add(this.TaskList);
+            this.panel1.Controls.Add(this.task_delete);
+            this.panel1.Controls.Add(this.task_view);
+            this.panel1.Controls.Add(this.task_add);
+            this.panel1.Location = new System.Drawing.Point(62, 136);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(447, 213);
+            this.panel1.TabIndex = 6;
+            // 
+            // show_task_info
+            // 
+            this.show_task_info.Location = new System.Drawing.Point(669, 386);
+            this.show_task_info.Name = "show_task_info";
+            this.show_task_info.Size = new System.Drawing.Size(119, 23);
+            this.show_task_info.TabIndex = 7;
+            this.show_task_info.Text = "ShowTaskInfo";
+            this.show_task_info.UseVisualStyleBackColor = true;
+            this.show_task_info.Click += new System.EventHandler(this.show_task_info_Click);
             // 
             // PomodoroForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.TaskList);
+            this.Controls.Add(this.show_task_info);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.read_list);
             this.Controls.Add(this.start_button);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.label1);
             this.Name = "PomodoroForm";
             this.Text = "Form1";
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -112,6 +173,11 @@
         private System.Windows.Forms.Button start_button;
         private System.Windows.Forms.Button read_list;
         private System.Windows.Forms.ListBox TaskList;
+        private System.Windows.Forms.Button task_add;
+        private System.Windows.Forms.Button task_view;
+        private System.Windows.Forms.Button task_delete;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button show_task_info;
     }
 }
 
