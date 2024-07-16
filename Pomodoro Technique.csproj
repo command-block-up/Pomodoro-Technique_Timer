@@ -65,7 +65,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pomodoro-Technique_Timer.cs" />
+    <Compile Include="Pomodoro-Technique_Timer.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pomodoro-Technique_Timer.Designer.cs">
       <DependentUpon>Pomodoro-Technique_Timer.cs</DependentUpon>
     </Compile>

@@ -7,17 +7,6 @@ using System.IO;
 
 namespace Pomodoro_Technique
 {
-    // 任务模型类
-    public class TaskItem
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string CreatedAt { get; set; }
-        public string UpdatedAt { get; set; }
-        public string PlanFinishDate { get; set; }
-        public int TomatoesCountPlan { get; set; }
-        public int TomatoesCountDone { get; set; }
-    }
     public partial class PomodoroForm : Form
     {
         // 倒计时定时器，负责递减剩余时间
@@ -298,5 +287,16 @@ namespace Pomodoro_Technique
             LoadTasksFromJson("tasks.json");
             UpdateTaskList();
         }
+    }
+    // 任务模型类
+    public class TaskItem
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
+        public string PlanFinishDate { get; set; }
+        public int TomatoesCountPlan { get; set; }
+        public int TomatoesCountDone { get; set; }
     }
 }
