@@ -287,6 +287,12 @@ namespace Pomodoro_Technique
             LoadTasksFromJson("tasks.json");
             UpdateTaskList();
         }
+
+        private void show_task_info_Click(object sender, EventArgs e)
+        {
+            TaskInfo TaskInfo = new TaskInfo();
+            TaskInfo.Show();
+        }
     }
     // 任务模型类
     public class TaskItem

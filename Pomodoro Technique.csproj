@@ -65,6 +65,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TaskInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskInfo.Designer.cs">
+      <DependentUpon>TaskInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pomodoro-Technique_Timer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +79,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="TaskInfo.resx">
+      <DependentUpon>TaskInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pomodoro-Technique_Timer.resx">
       <DependentUpon>Pomodoro-Technique_Timer.cs</DependentUpon>
     </EmbeddedResource>
