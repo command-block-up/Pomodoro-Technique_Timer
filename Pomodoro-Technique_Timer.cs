@@ -295,7 +295,6 @@ namespace Pomodoro_Technique
             {
                 // 获取选中的任务
                 TaskItem selectedTask = tasks[TaskList.SelectedIndex];
-                MessageBox.Show(selectedTask.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"));
                 using (TaskInfo TaskInfo = new TaskInfo())
                 {
                     // 在TaskInfo窗体中显示任务信息
