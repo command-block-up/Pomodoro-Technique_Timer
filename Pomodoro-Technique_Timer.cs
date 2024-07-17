@@ -295,8 +295,9 @@ namespace Pomodoro_Technique
         {
             // 假设tasks是一个包含所有任务的List<TaskItem>
             TaskList.Items.Clear(); // 清除现有的列表项
+            UpdateTaskList();
 
-            foreach (var task in tasks)
+            /*foreach (var task in tasks)
             {
                 ListViewItem item = new ListViewItem() { Text = task.Name };
                 item.SubItems.Add(task.Description);
@@ -307,7 +308,7 @@ namespace Pomodoro_Technique
                 item.SubItems.Add(task.TomatoesCountDone.ToString());
 
                 TaskList.Items.Add(item);
-            }
+            }*/
         }
 
         // read_list按钮的事件处理
