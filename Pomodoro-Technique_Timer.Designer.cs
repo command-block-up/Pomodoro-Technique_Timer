@@ -104,6 +104,7 @@
             this.task_add.TabIndex = 5;
             this.task_add.Text = "添加";
             this.task_add.UseVisualStyleBackColor = true;
+            this.task_add.Click += new System.EventHandler(this.task_add_Click);
             // 
             // task_view
             // 

@@ -4,7 +4,10 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
+using Windows.Management.Deployment.Preview;
+using System.Text.Json;
 namespace Pomodoro_Technique
 {
     public partial class PomodoroForm : Form
@@ -279,6 +282,33 @@ namespace Pomodoro_Technique
                 TaskList.Items.Add(task.Name);
             }
         }
+        public static void SaveTasksToJsonFile(string filePath, List<TaskItem> tasks)
+        {
+            string json = System.Text.Json.JsonSerializer.Serialize(tasks, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+
+            File.WriteAllText(filePath, json);
+        }
+        public void UpdateTaskListView()
+        {
+            // 假设tasks是一个包含所有任务的List<TaskItem>
+            TaskList.Items.Clear(); // 清除现有的列表项
+
+            foreach (var task in tasks)
+            {
+                ListViewItem item = new ListViewItem() { Text = task.Name };
+                item.SubItems.Add(task.Description);
+                item.SubItems.Add(task.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")); // 这里应该是转换后的字符串
+                item.SubItems.Add(task.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss"));
+                item.SubItems.Add(task.PlanFinishDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                item.SubItems.Add(task.TomatoesCountPlan.ToString());
+                item.SubItems.Add(task.TomatoesCountDone.ToString());
+
+                TaskList.Items.Add(item);
+            }
+        }
 
         // read_list按钮的事件处理
         private void read_list_Click(object sender, EventArgs e)
@@ -297,6 +327,9 @@ namespace Pomodoro_Technique
                 TaskItem selectedTask = tasks[TaskList.SelectedIndex];
                 using (TaskInfo TaskInfo = new TaskInfo())
                 {
+                    TaskInfo.plan_finish_date_textbox.Visible = true;
+                    TaskInfo.set_plan_finish_date.Visible = false;
+
                     // 在TaskInfo窗体中显示任务信息
                     TaskInfo.name_textbox.Text = selectedTask.Name;
                     TaskInfo.description.Text = selectedTask.Description;
@@ -321,6 +354,52 @@ namespace Pomodoro_Technique
             else
             {
                 MessageBox.Show("请选择一个任务来查看详细信息。", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void task_add_Click(object sender, EventArgs e)
+        {
+
+            using (TaskInfo taskInfoForm = new TaskInfo())
+            {
+                // 清空窗体的值（如果需要的话）
+                taskInfoForm.name_textbox.Text = "";
+                taskInfoForm.description.Text = "";
+                taskInfoForm.created_at_textbox.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                taskInfoForm.updated_at_textbox.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                taskInfoForm.plan_finish_date_textbox.Visible = false;
+                taskInfoForm.set_plan_finish_date.Visible = true;
+                taskInfoForm.tomatoes_count_plan_textbox.Text = "0";
+                taskInfoForm.tomatoes_count_done_textbox.Text = "0";
+
+                DialogResult result = taskInfoForm.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    string name = taskInfoForm.name_textbox.Text;
+                    string description = taskInfoForm.description.Text;
+                    string createdAt = taskInfoForm.created_at_textbox.Text;
+                    string updatedAt = taskInfoForm.updated_at_textbox.Text;
+                    int tomatoesCountPlan = int.Parse(taskInfoForm.tomatoes_count_plan_textbox.Text);
+                    int tomatoesCountDone = int.Parse(taskInfoForm.tomatoes_count_done_textbox.Text);
+
+                    DateTime createdAt_datetime = DateTime.ParseExact(createdAt, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+                    DateTime updatedAt_datetime = DateTime.ParseExact(updatedAt, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+                    TaskItem newTask = new TaskItem
+                    {
+                        Name = name,
+                        Description = description,
+                        CreatedAt = createdAt_datetime,
+                        UpdatedAt = updatedAt_datetime,
+                        PlanFinishDate = Global.planFinishDate,
+                        TomatoesCountPlan = tomatoesCountPlan,
+                        TomatoesCountDone = tomatoesCountDone
+                    };
+
+                    tasks.Add(newTask);
+                    SaveTasksToJsonFile("tasks.json", tasks);
+                    UpdateTaskListView();
+                }
             }
         }
     }

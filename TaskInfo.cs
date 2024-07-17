@@ -26,5 +26,24 @@ namespace Pomodoro_Technique
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
+
+        private void set_plan_finish_date_Click(object sender, EventArgs e)
+        {
+            using (DateTimePicker dateTimePicker = new DateTimePicker())
+            {
+                // 显示模式对话框，等待用户交互
+                DialogResult result = dateTimePicker.ShowDialog(this);
+
+                // 当对话框关闭时，根据返回的DialogResult执行后续操作
+                if (result == DialogResult.OK)
+                {
+                    Global.planFinishDate = dateTimePicker.Picker.Value;
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    // 执行Cancel操作
+                }
+            }
+        }
     }
 }
