@@ -1,4 +1,4 @@
-﻿namespace Pomodoro_Technique
+namespace Pomodoro_Technique
 {
     partial class TaskInfo
     {

@@ -288,20 +288,40 @@ namespace Pomodoro_Technique
             UpdateTaskList();
         }
 
-        private void show_task_info_Click(object sender, EventArgs e)
+        private void task_view_Click(object sender, EventArgs e)
         {
-            using (TaskInfo TaskInfo = new TaskInfo())
+            // 确保TaskList中有选中的项
+            if (TaskList.SelectedIndex != -1)
             {
-                DialogResult result = TaskInfo.ShowDialog();
-                if (result == DialogResult.OK)
+                // 获取选中的任务
+                TaskItem selectedTask = tasks[TaskList.SelectedIndex];
+                MessageBox.Show(selectedTask.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"));
+                using (TaskInfo TaskInfo = new TaskInfo())
                 {
-                    MessageBox.Show("OK");
-                }
-                else if (result == DialogResult.Cancel)
-                {
-                    MessageBox.Show("Cancel");
-                }
+                    // 在TaskInfo窗体中显示任务信息
+                    TaskInfo.name_textbox.Text = selectedTask.Name;
+                    TaskInfo.description.Text = selectedTask.Description;
+                    TaskInfo.created_at_textbox.Text = selectedTask.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
+                    TaskInfo.updated_at_textbox.Text = selectedTask.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss");
+                    TaskInfo.plan_finish_date_textbox.Text = selectedTask.PlanFinishDate.ToString("yyyy-MM-dd HH:mm:ss");
+                    TaskInfo.tomatoes_count_plan_textbox.Text = selectedTask.TomatoesCountPlan.ToString();
+                    TaskInfo.tomatoes_count_done_textbox.Text = selectedTask.TomatoesCountDone.ToString();
 
+                    DialogResult result = TaskInfo.ShowDialog();
+                    if (result == DialogResult.OK)
+                    {
+                        MessageBox.Show("OK");
+                    }
+                    else if (result == DialogResult.Cancel)
+                    {
+                        MessageBox.Show("Cancel");
+                    }
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("请选择一个任务来查看详细信息。", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
@@ -310,9 +330,9 @@ namespace Pomodoro_Technique
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public string CreatedAt { get; set; }
-        public string UpdatedAt { get; set; }
-        public string PlanFinishDate { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public DateTime PlanFinishDate { get; set; }
         public int TomatoesCountPlan { get; set; }
         public int TomatoesCountDone { get; set; }
     }

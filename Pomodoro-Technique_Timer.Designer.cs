@@ -114,6 +114,7 @@
             this.task_view.TabIndex = 5;
             this.task_view.Text = "查看";
             this.task_view.UseVisualStyleBackColor = true;
+            this.task_view.Click += new System.EventHandler(this.task_view_Click);
             // 
             // task_delete
             // 
@@ -145,7 +146,6 @@
             this.show_task_info.TabIndex = 7;
             this.show_task_info.Text = "ShowTaskInfo";
             this.show_task_info.UseVisualStyleBackColor = true;
-            this.show_task_info.Click += new System.EventHandler(this.show_task_info_Click);
             // 
             // PomodoroForm
             // 
