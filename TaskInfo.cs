@@ -16,5 +16,15 @@ namespace Pomodoro_Technique
         {
             InitializeComponent();
         }
+        private void ok_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+        private void cancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
     }
 }
