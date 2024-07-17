@@ -290,8 +290,19 @@ namespace Pomodoro_Technique
 
         private void show_task_info_Click(object sender, EventArgs e)
         {
-            TaskInfo TaskInfo = new TaskInfo();
-            TaskInfo.Show();
+            using (TaskInfo TaskInfo = new TaskInfo())
+            {
+                DialogResult result = TaskInfo.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    MessageBox.Show("OK");
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    MessageBox.Show("Cancel");
+                }
+
+            }
         }
     }
     // 任务模型类

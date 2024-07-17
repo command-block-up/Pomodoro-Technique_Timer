@@ -157,6 +157,7 @@
             this.ok.TabIndex = 3;
             this.ok.Text = "确定";
             this.ok.UseVisualStyleBackColor = true;
+            this.ok.Click += new System.EventHandler(this.ok_Click);
             // 
             // cancel
             // 
@@ -166,8 +167,9 @@
             this.cancel.TabIndex = 3;
             this.cancel.Text = "取消";
             this.cancel.UseVisualStyleBackColor = true;
+            this.cancel.Click += new System.EventHandler(this.cancel_Click);
             // 
-            // Form1
+            // TaskInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -187,7 +189,7 @@
             this.Controls.Add(this.updated_at_label);
             this.Controls.Add(this.created_at_label);
             this.Controls.Add(this.name_label);
-            this.Name = "Form1";
+            this.Name = "TaskInfo";
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();
