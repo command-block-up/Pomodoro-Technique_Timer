@@ -43,6 +43,7 @@
             this.tomatoes_count_done_textbox = new System.Windows.Forms.TextBox();
             this.ok = new System.Windows.Forms.Button();
             this.cancel = new System.Windows.Forms.Button();
+            this.set_plan_finish_date = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // name_label
@@ -169,11 +170,22 @@
             this.cancel.UseVisualStyleBackColor = true;
             this.cancel.Click += new System.EventHandler(this.cancel_Click);
             // 
+            // set_plan_finish_date
+            // 
+            this.set_plan_finish_date.Location = new System.Drawing.Point(122, 270);
+            this.set_plan_finish_date.Name = "set_plan_finish_date";
+            this.set_plan_finish_date.Size = new System.Drawing.Size(75, 23);
+            this.set_plan_finish_date.TabIndex = 4;
+            this.set_plan_finish_date.Text = "编辑";
+            this.set_plan_finish_date.UseVisualStyleBackColor = true;
+            this.set_plan_finish_date.Click += new System.EventHandler(this.set_plan_finish_date_Click);
+            // 
             // TaskInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(338, 491);
+            this.Controls.Add(this.set_plan_finish_date);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.ok);
             this.Controls.Add(this.description);
@@ -213,5 +225,6 @@
         public System.Windows.Forms.TextBox tomatoes_count_done_textbox;
         public System.Windows.Forms.Button ok;
         public System.Windows.Forms.Button cancel;
+        public System.Windows.Forms.Button set_plan_finish_date;
     }
 }
