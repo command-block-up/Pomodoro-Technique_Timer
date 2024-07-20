@@ -5,9 +5,8 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Globalization;
-using System.Security.Cryptography.X509Certificates;
-using Windows.Management.Deployment.Preview;
 using System.Text.Json;
+using Microsoft.WindowsAPICodePack.Taskbar;
 namespace Pomodoro_Technique
 {
     public partial class PomodoroForm : Form
@@ -41,6 +40,8 @@ namespace Pomodoro_Technique
 
         // 当前正在进行的会话类型
         private SessionType currentSession;
+
+        private int TaskbarProgressMaximumValue;
 
         public PomodoroForm()
         {
@@ -99,12 +100,14 @@ namespace Pomodoro_Technique
         private void ProgressTimer_Tick(object sender, EventArgs e)
         {
             progressBar.Value++;
+            UpdateTaskbarProgress(progressBar.Value);
             
 
             if (progressBar.Value >= progressBar.Maximum)
             {
                 // 进度条满后停止更新
                 progressTimer.Stop();
+                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
             }
         }
 
@@ -122,6 +125,8 @@ namespace Pomodoro_Technique
         {
             // 重置进度条值为0
             progressBar.Value = 0;
+            // 设置任务栏进度条为可见
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
             // 重置剩余秒数为一个番茄钟的时长
             remainingSeconds = PomodoroDurationMinutes * 60;
             // 设置当前会话为番茄钟
@@ -134,6 +139,7 @@ namespace Pomodoro_Technique
                        .AddText("开始番茄钟")
                        .Show();
             progressBar.Maximum = remainingSeconds;
+            TaskbarProgressMaximumValue = remainingSeconds;
             // 启动倒计时和进度条更新定时器
             countdownTimer.Start();
             progressTimer.Start();
@@ -159,6 +165,7 @@ namespace Pomodoro_Technique
                        .AddText("开始短休息")
                        .Show();
             progressBar.Maximum = remainingSeconds;
+            TaskbarProgressMaximumValue = remainingSeconds;
             // 启动倒计时和进度条更新
             countdownTimer.Start();
             progressTimer.Start();
@@ -182,6 +189,7 @@ namespace Pomodoro_Technique
                        .AddText("开始长休息")
                        .Show();
             progressBar.Maximum = remainingSeconds;
+            TaskbarProgressMaximumValue = remainingSeconds;
             // 启动倒计时和进度条更新
             countdownTimer.Start();
             progressTimer.Start();
@@ -388,6 +396,13 @@ namespace Pomodoro_Technique
                     SaveTasksToJsonFile("tasks.json", tasks);
                     UpdateTaskListView();
                 }
+            }
+        }
+        private void UpdateTaskbarProgress(int value)
+        {
+            if (value >= 0 && value <= TaskbarProgressMaximumValue)
+            {
+                TaskbarManager.Instance.SetProgressValue(value, TaskbarProgressMaximumValue);
             }
         }
     }
