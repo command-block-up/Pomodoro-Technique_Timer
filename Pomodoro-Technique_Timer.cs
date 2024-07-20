@@ -327,11 +327,9 @@ namespace Pomodoro_Technique
 
         private void task_view_Click(object sender, EventArgs e)
         {
-            // 确保TaskList中有选中的项
-            if (TaskList.SelectedIndex != -1)
+            if (TaskComboBox.SelectedItem != null)
             {
-                // 获取选中的任务
-                TaskItem selectedTask = tasks[TaskList.SelectedIndex];
+                var selectedTask = TaskComboBox.SelectedItem as TaskItem;
                 using (TaskInfo TaskInfo = new TaskInfo())
                 {
                     TaskInfo.plan_finish_date_textbox.Visible = true;
@@ -355,7 +353,6 @@ namespace Pomodoro_Technique
                     {
                         MessageBox.Show("Cancel");
                     }
-
                 }
             }
             else
