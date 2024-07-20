@@ -401,6 +401,29 @@ namespace Pomodoro_Technique
                 }
             }
         }
+        private void task_delete_Click(object sender, EventArgs e)
+        {
+            // 检查是否有任务被选中
+            if (TaskList.SelectedItems.Count > 0)
+            {
+                // 获取选中的ListViewItem
+                ListViewItem selectedItem = TaskList.SelectedItems[0] as ListViewItem;
+
+                // 从原始的任务列表中移除对应的任务
+                int index = selectedItem.Index;
+                tasks.RemoveAt(index);
+
+                // 更新UI
+                UpdateTaskListView();
+
+                // 保存更新后的任务列表
+                SaveTasksToJsonFile("taskinfo.json", tasks);
+            }
+            else
+            {
+                MessageBox.Show("请选择一个任务进行删除。");
+            }
+        }
         private void UpdateTaskbarProgress(int value)
         {
             if (value >= 0 && value <= TaskbarProgressMaximumValue)
