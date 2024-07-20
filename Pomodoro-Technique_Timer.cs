@@ -302,11 +302,14 @@ namespace Pomodoro_Technique
 
             File.WriteAllText(filePath, json);
         }
-        public void UpdateTaskListView()
+        public void UpdateTaskComboBox()
         {
-            // 假设tasks是一个包含所有任务的List<TaskItem>
-            TaskList.Items.Clear(); // 清除现有的列表项
-            UpdateTaskList();
+            TaskComboBox.Items.Clear(); // 清除现有的组合框项
+
+            foreach (var task in tasks)
+            {
+                TaskComboBox.Items.Add(task);
+            }
         }
 
         // read_list按钮的事件处理
@@ -314,7 +317,7 @@ namespace Pomodoro_Technique
         {
             // 假设你的JSON文件路径是 "tasks.json"
             LoadTasksFromJson("tasks.json");
-            UpdateTaskList();
+            UpdateTaskComboBox();
         }
 
         private void task_view_Click(object sender, EventArgs e)
@@ -397,27 +400,24 @@ namespace Pomodoro_Technique
 
                     tasks.Add(newTask);
                     SaveTasksToJsonFile("tasks.json", tasks);
-                    UpdateTaskListView();
+                    UpdateTaskComboBox();
                 }
             }
         }
         private void task_delete_Click(object sender, EventArgs e)
         {
             // 检查是否有任务被选中
-            if (TaskList.SelectedItems.Count > 0)
+            if (TaskComboBox.SelectedIndex >= 0)
             {
-                // 获取选中的ListViewItem
-                ListViewItem selectedItem = TaskList.SelectedItems[0] as ListViewItem;
-
                 // 从原始的任务列表中移除对应的任务
-                int index = selectedItem.Index;
-                tasks.RemoveAt(index);
+                var selectedTask = TaskComboBox.SelectedItem as TaskItem;
+                tasks.Remove(selectedTask);
 
                 // 更新UI
-                UpdateTaskListView();
+                UpdateTaskComboBox();
 
                 // 保存更新后的任务列表
-                SaveTasksToJsonFile("taskinfo.json", tasks);
+                SaveTasksToJsonFile("tasks.json", tasks);
             }
             else
             {

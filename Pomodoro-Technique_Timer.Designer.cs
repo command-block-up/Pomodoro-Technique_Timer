@@ -38,6 +38,7 @@
             this.task_delete = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.show_task_info = new System.Windows.Forms.Button();
+            this.TaskComboBox = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -149,11 +150,21 @@
             this.show_task_info.Text = "ShowTaskInfo";
             this.show_task_info.UseVisualStyleBackColor = true;
             // 
+            // TaskComboBox
+            // 
+            this.TaskComboBox.DisplayMember = "Name";
+            this.TaskComboBox.FormattingEnabled = true;
+            this.TaskComboBox.Location = new System.Drawing.Point(515, 273);
+            this.TaskComboBox.Name = "TaskComboBox";
+            this.TaskComboBox.Size = new System.Drawing.Size(265, 23);
+            this.TaskComboBox.TabIndex = 8;
+            // 
             // PomodoroForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.TaskComboBox);
             this.Controls.Add(this.show_task_info);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.read_list);
@@ -180,6 +191,7 @@
         private System.Windows.Forms.Button task_delete;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button show_task_info;
+        private System.Windows.Forms.ComboBox TaskComboBox;
     }
 }
 
