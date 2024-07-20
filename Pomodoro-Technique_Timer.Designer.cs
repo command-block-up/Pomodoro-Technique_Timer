@@ -126,6 +126,7 @@
             this.task_delete.TabIndex = 5;
             this.task_delete.Text = "删除";
             this.task_delete.UseVisualStyleBackColor = true;
+            this.task_delete.Click += new System.EventHandler(this.task_delete_Click);
             // 
             // panel1
             // 
