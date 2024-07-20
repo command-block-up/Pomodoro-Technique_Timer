@@ -304,12 +304,12 @@ namespace Pomodoro_Technique
         }
         public void UpdateTaskComboBox()
         {
-            TaskComboBox.Items.Clear(); // 清除现有的组合框项
+            // 清空DataSource
+            TaskComboBox.DataSource = null;
 
-            foreach (var task in tasks)
-            {
-                TaskComboBox.Items.Add(task);
-            }
+            // 将任务添加到ComboBox
+            TaskComboBox.DataSource = tasks;
+            TaskComboBox.DisplayMember = "Name"; // 如果TaskItem类中有名为Name的字段
         }
 
         // read_list按钮的事件处理
@@ -318,6 +318,11 @@ namespace Pomodoro_Technique
             // 假设你的JSON文件路径是 "tasks.json"
             LoadTasksFromJson("tasks.json");
             UpdateTaskComboBox();
+            // 定位到第一个任务
+            if (tasks.Count > 0)
+            {
+                TaskComboBox.SelectedIndex = 0;
+            }
         }
 
         private void task_view_Click(object sender, EventArgs e)
@@ -401,6 +406,8 @@ namespace Pomodoro_Technique
                     tasks.Add(newTask);
                     SaveTasksToJsonFile("tasks.json", tasks);
                     UpdateTaskComboBox();
+                    // 定位到新添加的任务
+                    TaskComboBox.SelectedIndex = tasks.Count - 1;
                 }
             }
         }
@@ -418,6 +425,15 @@ namespace Pomodoro_Technique
 
                 // 保存更新后的任务列表
                 SaveTasksToJsonFile("tasks.json", tasks);
+                // 设置SelectedIndex为-1，避免显示已删除的任务
+                TaskComboBox.SelectedIndex = -1;
+
+                // 定位到第一个任务
+                if (tasks.Count > 0)
+                {
+                    TaskComboBox.SelectedIndex = 0;
+                    TaskComboBox.DisplayMember = "Name"; // 如果TaskItem类中有名为Name的字段
+                }
             }
             else
             {
