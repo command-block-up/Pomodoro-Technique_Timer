@@ -123,6 +123,7 @@ namespace Pomodoro_Technique
         // 开始一个新的番茄钟会话
         private void StartPomodoro()
         {
+            this.Text = "番茄工作法：番茄钟";
             // 重置进度条值为0
             progressBar.Value = 0;
             // 设置任务栏进度条为可见
@@ -150,6 +151,7 @@ namespace Pomodoro_Technique
         // 开始短休息会话
         private void StartShortBreak()
         {
+            this.Text = "番茄工作法：短休息";
             // 重置进度条值为0
             progressBar.Value = 0;
 
@@ -174,6 +176,7 @@ namespace Pomodoro_Technique
         // 开始长休息会话
         private void StartLongBreak()
         {
+            this.Text = "番茄工作法：长休息";
             // 重置进度条值为0
             progressBar.Value = 0;
 
