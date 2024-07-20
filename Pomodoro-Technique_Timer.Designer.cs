@@ -160,7 +160,7 @@
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.label1);
             this.Name = "PomodoroForm";
-            this.Text = "Form1";
+            this.Text = "番茄工作法";
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
