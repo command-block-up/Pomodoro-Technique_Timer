@@ -1,12 +1,12 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
-using System;
-using System.Windows.Forms;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.IO;
-using System.Globalization;
-using System.Text.Json;
 using Microsoft.WindowsAPICodePack.Taskbar;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Text.Json;
+using System.Windows.Forms;
 namespace Pomodoro_Technique
 {
     public partial class PomodoroForm : Form
@@ -101,7 +101,7 @@ namespace Pomodoro_Technique
         {
             progressBar.Value++;
             UpdateTaskbarProgress(progressBar.Value);
-            
+
 
             if (progressBar.Value >= progressBar.Maximum)
             {
@@ -287,15 +287,6 @@ namespace Pomodoro_Technique
             }
         }
 
-        // 更新任务列表UI的方法
-        private void UpdateTaskList()
-        {
-            TaskList.Items.Clear();
-            foreach (var task in tasks)
-            {
-                TaskList.Items.Add(task.Name);
-            }
-        }
         public static void SaveTasksToJsonFile(string filePath, List<TaskItem> tasks)
         {
             string json = System.Text.Json.JsonSerializer.Serialize(tasks, new JsonSerializerOptions
