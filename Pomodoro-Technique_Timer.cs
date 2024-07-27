@@ -242,6 +242,9 @@ namespace Pomodoro_Technique
                 isRunning = false;
                 countdownTimer.Stop();
                 progressTimer.Stop();
+                this.Text = "番茄工作法";
+                // 设置任务栏进度条为不可见
+                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
 
                 // 无论当前是哪种会话，都重置UI显示
                 if (currentSession == SessionType.Pomodoro)
