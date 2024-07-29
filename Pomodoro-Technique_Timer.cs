@@ -42,6 +42,7 @@ namespace Pomodoro_Technique
         private SessionType currentSession;
 
         private int TaskbarProgressMaximumValue;
+        private string nextActivity;
 
         public PomodoroForm()
         {
@@ -171,6 +172,8 @@ namespace Pomodoro_Technique
             // 启动倒计时和进度条更新
             countdownTimer.Start();
             progressTimer.Start();
+            // 改变按钮文本为“停止”
+            start_button.Text = "停止";
         }
 
         // 开始长休息会话
@@ -196,6 +199,8 @@ namespace Pomodoro_Technique
             // 启动倒计时和进度条更新
             countdownTimer.Start();
             progressTimer.Start();
+            // 改变按钮文本为“停止”
+            start_button.Text = "停止";
         }
 
         // 休息结束后重置状态，准备开始新的番茄钟
@@ -223,18 +228,7 @@ namespace Pomodoro_Technique
             {
                 // 如果当前没有运行，开始相应的会话
                 isRunning = true;
-                switch (currentSession)
-                {
-                    case SessionType.Pomodoro:
-                        StartPomodoro();
-                        break;
-                    case SessionType.ShortBreak:
-                        StartShortBreak();
-                        break;
-                    case SessionType.LongBreak:
-                        StartLongBreak();
-                        break;
-                }
+                StartPomodoro();
             }
             else
             {
