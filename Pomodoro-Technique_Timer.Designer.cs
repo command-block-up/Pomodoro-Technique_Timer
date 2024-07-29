@@ -39,6 +39,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.show_task_info = new System.Windows.Forms.Button();
             this.TaskComboBox = new System.Windows.Forms.ComboBox();
+            this.TopMostButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -159,11 +160,22 @@
             this.TaskComboBox.Size = new System.Drawing.Size(265, 23);
             this.TaskComboBox.TabIndex = 8;
             // 
+            // TopMostButton
+            // 
+            this.TopMostButton.Location = new System.Drawing.Point(704, 357);
+            this.TopMostButton.Name = "TopMostButton";
+            this.TopMostButton.Size = new System.Drawing.Size(84, 23);
+            this.TopMostButton.TabIndex = 9;
+            this.TopMostButton.Text = "TopMost";
+            this.TopMostButton.UseVisualStyleBackColor = true;
+            this.TopMostButton.Click += new System.EventHandler(this.TopMostButton_Click);
+            // 
             // PomodoroForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.TopMostButton);
             this.Controls.Add(this.TaskComboBox);
             this.Controls.Add(this.show_task_info);
             this.Controls.Add(this.panel1);
@@ -192,6 +204,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button show_task_info;
         private System.Windows.Forms.ComboBox TaskComboBox;
+        private System.Windows.Forms.Button TopMostButton;
     }
 }
 
