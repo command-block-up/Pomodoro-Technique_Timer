@@ -42,7 +42,6 @@ namespace Pomodoro_Technique
         private SessionType currentSession;
 
         private int TaskbarProgressMaximumValue;
-        private string nextActivity;
 
         public PomodoroForm()
         {
@@ -430,6 +429,19 @@ namespace Pomodoro_Technique
             if (value >= 0 && value <= TaskbarProgressMaximumValue)
             {
                 TaskbarManager.Instance.SetProgressValue(value, TaskbarProgressMaximumValue);
+            }
+        }
+
+        private void TopMostButton_Click(object sender, EventArgs e)
+        {
+            if (this.TopMost == false)
+            {
+                this.TopMost = true;
+
+            }
+            else
+            {
+                this.TopMost = false;
             }
         }
     }
