@@ -4,7 +4,12 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Drawing;
+using System.Drawing.Text;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Windows.Forms;
 namespace Pomodoro_Technique
@@ -43,9 +48,13 @@ namespace Pomodoro_Technique
 
         private int TaskbarProgressMaximumValue;
 
+        // 通过 PrivateFontCollection 加载的嵌入字体（得意黑 Smiley Sans，SIL OFL 1.1 免费商用）
+        private PrivateFontCollection fontCollection;
+
         public PomodoroForm()
         {
             InitializeComponent();
+            LoadCustomFont(); // 加载嵌入的得意黑字体
             InitializeTimers(); // 初始化所有需要的计时器组件
             progressBar.Maximum = PomodoroDurationMinutes * 60; // 设置进度条最大值为一个番茄钟的总秒数
         }
@@ -58,6 +67,50 @@ namespace Pomodoro_Technique
 
             progressTimer = new System.Windows.Forms.Timer { Interval = 1000 };
             progressTimer.Tick += ProgressTimer_Tick; // 同步更新进度条
+        }
+
+        // 从程序集嵌入资源加载得意黑字体（SIL OFL 1.1，免费商用），并应用到倒计时标签
+        private void LoadCustomFont()
+        {
+            try
+            {
+                fontCollection = new PrivateFontCollection();
+                string resourceName = Assembly.GetExecutingAssembly().GetManifestResourceNames()
+                    .FirstOrDefault(name => name.EndsWith("SmileySans-Oblique.ttf"));
+                if (resourceName == null)
+                {
+                    return; // 资源缺失时回退到设计器字体
+                }
+
+                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    stream.CopyTo(memoryStream);
+                    byte[] fontData = memoryStream.ToArray();
+
+                    // .NET Framework 4.7.2 没有 AddFontMemoryStream，用 AddMemoryFont 加载内存字体
+                    IntPtr fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
+                    try
+                    {
+                        Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
+                        fontCollection.AddMemoryFont(fontPtr, fontData.Length);
+                    }
+                    finally
+                    {
+                        Marshal.FreeCoTaskMem(fontPtr);
+                    }
+                }
+
+                if (fontCollection.Families.Length > 0)
+                {
+                    label1.Font = new Font(fontCollection.Families[0], 42F);
+                }
+            }
+            catch (Exception ex)
+            {
+                // 字体加载失败时回退到设计器字体，不影响程序运行
+                System.Diagnostics.Debug.WriteLine("加载自定义字体失败: " + ex.Message);
+            }
         }
 
         // 倒计时定时器的Tick事件处理器
